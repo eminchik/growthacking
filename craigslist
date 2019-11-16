@@ -1,0 +1,24 @@
+import selenium
+from selenium import  webdriver
+import urllib.request
+from selenium.webdriver.common.keys import Keys
+import csv
+from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
+import time
+
+with open( "C:\\Users\\ealiyev\\Desktop\\Automation\\craigslist.csv", "r" ) as csv_file:
+    readCSV = csv.reader(csv_file)
+    for row in readCSV:
+        row = str(row[0])
+        clean_url = (row.strip("ï»¿"))
+        print(clean_url)
+        driver = webdriver.Chrome("C:\\Users\\ealiyev\\Downloads\\Selenium\\chromedriver_win32\\chromedriver.exe")
+        driver.get(clean_url)
+        elem = driver.find_element_by_xpath("/html/body/section/section/header/div[2]/div/button")
+        elem.click()
+        time.sleep(5)
+        page = urllib.request.urlopen( clean_url )
+        soup = BeautifulSoup( page, "html.parser" )
+        Reply_Button =soup.find("li", attrs={"class":"reply-email"})
+        print (Reply_Button)
